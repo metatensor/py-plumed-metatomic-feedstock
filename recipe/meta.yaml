@@ -1,0 +1,56 @@
+{% set name = "py-plumed-metatomic" %}
+{% set version = "2.9.2" %}
+{% set sha256 = "301fbc958374f81d9b8c7a1eac73095f6dded52cce73ce33d64bdbebf51ac63d" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/plumed/plumed2/archive/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+
+build:
+  number: 1
+  skip: true  # [win or py2k]
+
+requirements:
+  build:
+    - python                                 # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - cython                                 # [build_platform != target_platform]
+    - {{ compiler('c') }}
+    - {{ stdlib("c") }}
+    - make
+  host:
+    - python
+    - setuptools
+    - pip
+    - cython
+  run:
+    - plumed
+    - python
+
+test:
+  imports:
+    - plumed
+  commands:
+    - python -c "import plumed; p=plumed.Plumed(); print(p)"
+
+about:
+  home: http://www.plumed.org/
+  license: LGPL-3.0
+  license_family: GPL
+  license_file: COPYING.LESSER
+  summary: Python wrappers for plumed library
+  description: |
+    PLUMED is an open source library for free energy calculations in
+    molecular systems which works together with some of the most
+    popular molecular dynamics engines.
+  doc_url: https://www.plumed.org/doc
+  dev_url: https://github.com/plumed/plumed2
+
+extra:
+  recipe-maintainers:
+    - GiovanniBussi
