@@ -36,6 +36,11 @@ jobs:
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_64_python3.13.____cp313
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['ubuntu-latest']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_64_python3.9.____cpython
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -52,6 +57,11 @@ jobs:
             runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_python3.12.____cpython
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['ubuntu-24.04-arm']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
+          - CONFIG: linux_aarch64_python3.13.____cp313
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-24.04-arm']
@@ -73,6 +83,10 @@ jobs:
             UPLOAD_PACKAGES: True
             os: macos
             runs_on: ['macos-13']
+          - CONFIG: osx_64_python3.13.____cp313
+            UPLOAD_PACKAGES: True
+            os: macos
+            runs_on: ['macos-13']
           - CONFIG: osx_64_python3.9.____cpython
             UPLOAD_PACKAGES: True
             os: macos
@@ -86,6 +100,10 @@ jobs:
             os: macos
             runs_on: ['macos-14']
           - CONFIG: osx_arm64_python3.12.____cpython
+            UPLOAD_PACKAGES: True
+            os: macos
+            runs_on: ['macos-14']
+          - CONFIG: osx_arm64_python3.13.____cp313
             UPLOAD_PACKAGES: True
             os: macos
             runs_on: ['macos-14']
