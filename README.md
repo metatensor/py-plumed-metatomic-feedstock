@@ -13,9 +13,9 @@ Development: https://github.com/plumed/plumed2
 
 Documentation: https://www.plumed.org/doc
 
-PLUMED is an open source library for free energy calculations in
-molecular systems which works together with some of the most
-popular molecular dynamics engines.
+PLUMED is an open source library for free energy calculations in molecular
+systems which works together with some of the most popular molecular
+dynamics engines. This version enables the metatomic integration.
 
 
 Current build status
@@ -107,5 +107,6 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
-* [@GiovanniBussi](https://github.com/GiovanniBussi/)
+* [@HaoZeke](https://github.com/HaoZeke/)
+* [@Luthaf](https://github.com/Luthaf/)
 
