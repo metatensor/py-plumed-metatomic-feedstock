@@ -41,11 +41,6 @@ jobs:
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-          - CONFIG: linux_64_python3.9.____cpython
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_aarch64_python3.10.____cpython
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -66,57 +61,45 @@ jobs:
             os: ubuntu
             runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
-          - CONFIG: linux_aarch64_python3.9.____cpython
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-24.04-arm']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: osx_64_python3.10.____cpython
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-13']
+            runs_on: ['macos-15-intel']
           - CONFIG: osx_64_python3.11.____cpython
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-13']
+            runs_on: ['macos-15-intel']
           - CONFIG: osx_64_python3.12.____cpython
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-13']
+            runs_on: ['macos-15-intel']
           - CONFIG: osx_64_python3.13.____cp313
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-13']
-          - CONFIG: osx_64_python3.9.____cpython
-            UPLOAD_PACKAGES: True
-            os: macos
-            runs_on: ['macos-13']
+            runs_on: ['macos-15-intel']
           - CONFIG: osx_arm64_python3.10.____cpython
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-14']
+            runs_on: ['macos-latest']
           - CONFIG: osx_arm64_python3.11.____cpython
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-14']
+            runs_on: ['macos-latest']
           - CONFIG: osx_arm64_python3.12.____cpython
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-14']
+            runs_on: ['macos-latest']
           - CONFIG: osx_arm64_python3.13.____cp313
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-14']
-          - CONFIG: osx_arm64_python3.9.____cpython
-            UPLOAD_PACKAGES: True
-            os: macos
-            runs_on: ['macos-14']
+            runs_on: ['macos-latest']
     steps:
 
     - name: Checkout code
       uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
     - name: Build on Linux
+      id: build-linux
       if: matrix.os == 'ubuntu'
       env:
         CONFIG: ${{ matrix.CONFIG }}
@@ -145,6 +128,7 @@ jobs:
         ./.scripts/run_docker_build.sh
 
     - name: Build on macOS
+      id: build-macos
       if: matrix.os == 'macos'
       env:
         CONFIG: ${{ matrix.CONFIG }}
@@ -166,6 +150,8 @@ jobs:
         ./.scripts/run_osx_build.sh
 
     - name: Build on windows
+      id: build-windows
+      if: matrix.os == 'windows'
       shell: cmd
       run: |
         set "flow_run_id=github_%GITHUB_RUN_ID%"
@@ -173,10 +159,12 @@ jobs:
         set "sha=%GITHUB_SHA%"
         call ".scripts\run_win_build.bat"
       env:
+        # default value; make it explicit, as it needs to match with artefact
+        # generation below. Not configurable for now, can be revisited later
+        CONDA_BLD_DIR: C:\bld
         MINIFORGE_HOME: D:\Miniforge
         PYTHONUNBUFFERED: 1
         CONFIG: ${{ matrix.CONFIG }}
         CI: github_actions
         UPLOAD_PACKAGES: ${{ matrix.UPLOAD_PACKAGES }}
         BINSTAR_TOKEN: ${{ secrets.BINSTAR_TOKEN }}
-      if: matrix.os == 'windows'
