@@ -16,7 +16,7 @@ source:
   # sha256: a47791bb0178599743be55416679820bdf0afe7be565644ae98fc23749dee945
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win or py2k]
   # string: py{{ CONDA_PY }}_h{{ PKG_HASH }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
   string: py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
